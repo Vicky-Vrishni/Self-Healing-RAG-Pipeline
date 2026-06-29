@@ -1,10 +1,10 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
-CHROMA_DIR = "./chroma_db"
+FAISS_DIR = "./faiss_db"
 
 def get_embeddings():
     return HuggingFaceEmbeddings(
@@ -13,7 +13,7 @@ def get_embeddings():
         encode_kwargs={"normalize_embeddings": True}
     )
 
-def load_and_index_pdf(pdf_path: str) -> Chroma:
+def load_and_index_pdf(pdf_path: str):
     loader = PyPDFLoader(pdf_path)
     documents = loader.load()
 
@@ -23,27 +23,21 @@ def load_and_index_pdf(pdf_path: str) -> Chroma:
         separators=["\n\n", "\n", ".", "!", "?", ",", " "]
     )
     chunks = splitter.split_documents(documents)
-
     embeddings = get_embeddings()
 
-    vectorstore = Chroma.from_documents(
-        documents=chunks,
-        embedding=embeddings,
-        persist_directory=CHROMA_DIR
-    )
+    if os.path.exists(FAISS_DIR):
+        vectorstore = FAISS.load_local(FAISS_DIR, embeddings, allow_dangerous_deserialization=True)
+        vectorstore.add_documents(chunks)
+    else:
+        vectorstore = FAISS.from_documents(chunks, embeddings)
+
+    vectorstore.save_local(FAISS_DIR)
     return vectorstore
 
-def load_existing_vectorstore() -> Chroma:
+def load_existing_vectorstore():
     embeddings = get_embeddings()
-    return Chroma(
-        persist_directory=CHROMA_DIR,
-        embedding_function=embeddings
-    )
+    return FAISS.load_local(FAISS_DIR, embeddings, allow_dangerous_deserialization=True)
 
-def retrieve_chunks(query: str, vectorstore: Chroma, k: int = 5) -> list:
-    retriever = vectorstore.as_retriever(
-        search_type="mmr",
-        search_kwargs={"k": k, "fetch_k": 20}
-    )
-    docs = retriever.invoke(query)
+def retrieve_chunks(query: str, vectorstore, k: int = 5) -> list:
+    docs = vectorstore.similarity_search(query, k=k)
     return docs
