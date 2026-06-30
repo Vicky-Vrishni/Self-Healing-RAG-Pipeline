@@ -1,43 +1,69 @@
 import os
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from pypdf import PdfReader
+from sentence_transformers import SentenceTransformer
+import faiss
+import numpy as np
+import pickle
 
-FAISS_DIR = "./faiss_db"
+FAISS_INDEX_PATH = "./faiss_index.bin"
+FAISS_META_PATH = "./faiss_meta.pkl"
 
-def get_embeddings():
-    return HuggingFaceEmbeddings(
-        model_name="all-MiniLM-L6-v2",
-        model_kwargs={"device": "cpu"},
-        encode_kwargs={"normalize_embeddings": True}
-    )
+_model = None
+
+def get_embedder():
+    global _model
+    if _model is None:
+        _model = SentenceTransformer("all-MiniLM-L6-v2")
+    return _model
+
+def chunk_text(text: str, chunk_size: int = 500, overlap: int = 100) -> list:
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = start + chunk_size
+        chunks.append(text[start:end])
+        start += chunk_size - overlap
+    return [c.strip() for c in chunks if c.strip()]
 
 def load_and_index_pdf(pdf_path: str):
-    loader = PyPDFLoader(pdf_path)
-    documents = loader.load()
+    reader = PdfReader(pdf_path)
+    full_text = ""
+    for page in reader.pages:
+        full_text += page.extract_text() + "\n"
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=100,
-        separators=["\n\n", "\n", ".", "!", "?", ",", " "]
-    )
-    chunks = splitter.split_documents(documents)
-    embeddings = get_embeddings()
+    chunks = chunk_text(full_text)
+    model = get_embedder()
+    embeddings = model.encode(chunks, normalize_embeddings=True)
+    embeddings = np.array(embeddings).astype("float32")
 
-    if os.path.exists(FAISS_DIR):
-        vectorstore = FAISS.load_local(FAISS_DIR, embeddings, allow_dangerous_deserialization=True)
-        vectorstore.add_documents(chunks)
+    if os.path.exists(FAISS_INDEX_PATH):
+        index = faiss.read_index(FAISS_INDEX_PATH)
+        with open(FAISS_META_PATH, "rb") as f:
+            all_chunks = pickle.load(f)
+        index.add(embeddings)
+        all_chunks.extend(chunks)
     else:
-        vectorstore = FAISS.from_documents(chunks, embeddings)
+        dimension = embeddings.shape[1]
+        index = faiss.IndexFlatIP(dimension)
+        index.add(embeddings)
+        all_chunks = chunks
 
-    vectorstore.save_local(FAISS_DIR)
-    return vectorstore
+    faiss.write_index(index, FAISS_INDEX_PATH)
+    with open(FAISS_META_PATH, "wb") as f:
+        pickle.dump(all_chunks, f)
 
-def load_existing_vectorstore():
-    embeddings = get_embeddings()
-    return FAISS.load_local(FAISS_DIR, embeddings, allow_dangerous_deserialization=True)
+    return index, all_chunks
 
-def retrieve_chunks(query: str, vectorstore, k: int = 5) -> list:
-    docs = vectorstore.similarity_search(query, k=k)
-    return docs
+def load_existing_index():
+    index = faiss.read_index(FAISS_INDEX_PATH)
+    with open(FAISS_META_PATH, "rb") as f:
+        all_chunks = pickle.load(f)
+    return index, all_chunks
+
+def retrieve_chunks(query: str, k: int = 5) -> list:
+    index, all_chunks = load_existing_index()
+    model = get_embedder()
+    query_embedding = model.encode([query], normalize_embeddings=True).astype("float32")
+    distances, indices = index.search(query_embedding, k)
+    results = [all_chunks[i] for i in indices[0] if i < len(all_chunks)]
+    return results

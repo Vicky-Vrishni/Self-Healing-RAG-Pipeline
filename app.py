@@ -2,8 +2,8 @@ import streamlit as st
 import os
 import tempfile
 from dotenv import load_dotenv
-from retriever import load_and_index_pdf, load_existing_vectorstore
-from rag_graph import build_graph
+from retriever import load_and_index_pdf
+from rag_graph import run_self_healing_rag
 
 load_dotenv()
 
@@ -95,8 +95,8 @@ with st.sidebar:
     show_trace = st.toggle("Show reasoning trace", value=True)
     show_sources = st.toggle("Show source chunks", value=False)
 
-chroma_exists = os.path.exists("./chroma_db")
-if not chroma_exists and not st.session_state.get("docs_indexed"):
+index_exists = os.path.exists("./faiss_index.bin")
+if not index_exists and not st.session_state.get("docs_indexed"):
     st.info("👈 Please upload and index a PDF document from the sidebar to get started.")
     st.stop()
 
@@ -120,19 +120,7 @@ if question:
     with st.chat_message("assistant"):
         with st.spinner("🔍 Retrieving → 🤖 Generating → 🧐 Critiquing..."):
             try:
-                graph = build_graph()
-                initial_state = {
-                    "question": question,
-                    "context": [],
-                    "answer": "",
-                    "verdict": "",
-                    "reason": "",
-                    "reformulated_query": question,
-                    "retry_count": 0,
-                    "final_answer": "",
-                    "trace_log": []
-                }
-                result = graph.invoke(initial_state)
+                result = run_self_healing_rag(question)
 
                 st.markdown(f'<div class="answer-box">{result["final_answer"]}</div>', unsafe_allow_html=True)
 
@@ -143,8 +131,7 @@ if question:
                     else:
                         st.markdown('<div class="verdict-fail">⚠️ Max retries reached — Best available answer shown</div>', unsafe_allow_html=True)
                 with col2:
-                    retries = result.get("retry_count", 0)
-                    st.metric("Retries used", f"{retries} / 3")
+                    st.metric("Retries used", f"{result['retry_count']} / 3")
 
                 if show_trace and result.get("trace_log"):
                     st.markdown("**🔍 Reasoning Trace:**")
@@ -153,9 +140,9 @@ if question:
 
                 if show_sources and result.get("context"):
                     with st.expander("📄 Source Chunks Used"):
-                        for i, doc in enumerate(result["context"]):
+                        for i, chunk in enumerate(result["context"]):
                             st.markdown(f"**Chunk {i+1}:**")
-                            st.text(doc.page_content)
+                            st.text(chunk)
                             st.divider()
 
                 st.session_state.chat_history.append({
