@@ -1,4 +1,5 @@
-from groq import Groq
+from langchain_groq import ChatGroq
+from langchain_core.prompts import ChatPromptTemplate
 from retriever import retrieve_chunks
 from critic import critique_answer
 from dotenv import load_dotenv
@@ -8,30 +9,36 @@ load_dotenv()
 
 MAX_RETRIES = 3
 
-def get_client():
-    return Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-def generate_answer(question: str, context_chunks: list) -> str:
-    context_text = "\n\n".join(context_chunks)
+def get_llm():
+    return ChatGroq(
+        model="openai/gpt-oss-120b",
+        temperature=0.2,
+        api_key=os.getenv("GROQ_API_KEY"),
+    )
 
-    prompt = f"""You are a helpful assistant. Answer the question using ONLY the provided context.
+
+ANSWER_PROMPT = ChatPromptTemplate.from_template(
+    """You are a helpful assistant. Answer the question using ONLY the provided context.
 If the context does not contain enough information, say exactly:
 "I don't have enough information in the provided documents to answer this question."
 
 CONTEXT:
-{context_text}
+{context}
 
 QUESTION: {question}
 
 ANSWER:"""
+)
 
-    client = get_client()
-    response = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.2
-    )
-    return response.choices[0].message.content.strip()
+
+def generate_answer(question: str, context_chunks: list) -> str:
+    context_text = "\n\n".join(context_chunks)
+    llm = get_llm()
+    chain = ANSWER_PROMPT | llm
+    response = chain.invoke({"context": context_text, "question": question})
+    return response.content.strip()
+
 
 def run_self_healing_rag(question: str) -> dict:
     trace_log = []
@@ -55,7 +62,7 @@ def run_self_healing_rag(question: str) -> dict:
                 "verdict": "PASS",
                 "retry_count": retry_count,
                 "trace_log": trace_log,
-                "context": context_chunks
+                "context": context_chunks,
             }
 
         if retry_count >= MAX_RETRIES:
@@ -65,7 +72,7 @@ def run_self_healing_rag(question: str) -> dict:
                 "verdict": "FAIL",
                 "retry_count": retry_count,
                 "trace_log": trace_log,
-                "context": context_chunks
+                "context": context_chunks,
             }
 
         current_query = result["reformulated_query"]
@@ -77,5 +84,5 @@ def run_self_healing_rag(question: str) -> dict:
         "verdict": "FAIL",
         "retry_count": retry_count,
         "trace_log": trace_log,
-        "context": []
+        "context": [],
     }

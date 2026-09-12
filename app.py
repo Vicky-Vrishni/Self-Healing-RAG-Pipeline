@@ -95,7 +95,7 @@ with st.sidebar:
     show_trace = st.toggle("Show reasoning trace", value=True)
     show_sources = st.toggle("Show source chunks", value=False)
 
-index_exists = os.path.exists("./faiss_index.bin")
+index_exists = os.path.exists("./faiss_index")
 if not index_exists and not st.session_state.get("docs_indexed"):
     st.info("👈 Please upload and index a PDF document from the sidebar to get started.")
     st.stop()
