@@ -2,7 +2,7 @@
 
 A Retrieval-Augmented Generation (RAG) system that doesn't just retrieve-and-generate — it **critiques its own output and retries** when the answer isn't properly grounded in the source documents.
 
-** Live Demo:** [self-healing-rag-pipeline-1.onrender.com](https://self-healing-rag-pipeline-1.onrender.com)
+Live Demo: [self-healing-rag-pipeline-1.onrender.com](https://self-healing-rag-pipeline-1.onrender.com)
 
 ---
 
