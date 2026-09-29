@@ -119,5 +119,17 @@ Production RAG systems need more than a happy-path demo — they need to handle 
 
 ## Author
 
+
+## Future Improvements
+
+- Add automated tests for retrieval.
+- Improve error handling in the RAG pipeline.
+- Track retrieval accuracy and response quality.
+- Add monitoring for pipeline failures.
+
+
+
+
+
 **Vicky Kumar**
 [GitHub](https://github.com/Vicky-Vrishni) · [LinkedIn](https://linkedin.com/in/vicky-kumar-167189323)
