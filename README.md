@@ -10,7 +10,7 @@ Live Demo: [self-healing-rag-pipeline-1.onrender.com](https://self-healing-rag-p
 
 Most RAG systems follow a simple linear flow: retrieve chunks → generate an answer → return it to the user. There's no verification step, which means hallucinated or poorly-grounded answers slip through silently.
 
-This project adds a **self-correction loop**: every generated answer is evaluated by a critic agent before being shown to the user. If the critic detects hallucination or insufficient grounding, the system automatically reformulates the query and retries — up to 3 times — before gracefully admitting it doesn't have enough information.
+This project adds a **self-correction loop**: every generated answer is evaluated by a critic agent before being shown to the user. If the critic detects hallucination or insufficient grounding, the system automatically reformulates the query and retries up to 3 times before gracefully admitting it doesn't have enough information.
 
 ---
 
