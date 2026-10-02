@@ -2,7 +2,7 @@
 
 A Retrieval-Augmented Generation (RAG) system that doesn't just retrieve-and-generate — it **critiques its own output and retries** when the answer isn't properly grounded in the source documents.
 
-** Live Demo:** [self-healing-rag-pipeline-1.onrender.com](https://self-healing-rag-pipeline-1.onrender.com)
+Live Demo: [self-healing-rag-pipeline-1.onrender.com](https://self-healing-rag-pipeline-1.onrender.com)
 
 ---
 
@@ -10,7 +10,7 @@ A Retrieval-Augmented Generation (RAG) system that doesn't just retrieve-and-gen
 
 Most RAG systems follow a simple linear flow: retrieve chunks → generate an answer → return it to the user. There's no verification step, which means hallucinated or poorly-grounded answers slip through silently.
 
-This project adds a **self-correction loop**: every generated answer is evaluated by a critic agent before being shown to the user. If the critic detects hallucination or insufficient grounding, the system automatically reformulates the query and retries — up to 3 times — before gracefully admitting it doesn't have enough information.
+This project adds a **self-correction loop**: every generated answer is evaluated by a critic agent before being shown to the user. If the critic detects hallucination or insufficient grounding, the system automatically reformulates the query and retries up to 3 times before gracefully admitting it doesn't have enough information.
 
 ---
 
@@ -118,6 +118,18 @@ Production RAG systems need more than a happy-path demo — they need to handle 
 ---
 
 ## Author
+
+
+## Future Improvements
+
+- Add automated tests for retrieval.
+- Improve error handling in the RAG pipeline.
+- Track retrieval accuracy and response quality.
+- Add monitoring for pipeline failures.
+
+
+
+
 
 **Vicky Kumar**
 [GitHub](https://github.com/Vicky-Vrishni) · [LinkedIn](https://linkedin.com/in/vicky-kumar-167189323)
