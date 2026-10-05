@@ -27,6 +27,7 @@ def get_embedder():
     return _embeddings
 
 
+# Upload user private data
 def load_and_index_pdf(pdf_path: str):
     """Load a PDF, split it, embed it and add it to FAISS."""
 
