@@ -18,6 +18,7 @@ _embeddings = None
 def get_embedder():
     global _embeddings
 
+    #HuggingFace sentence Transformer
     if _embeddings is None:
         _embeddings = HuggingFaceEmbeddings(
             model_name="all-MiniLM-L6-v2"
