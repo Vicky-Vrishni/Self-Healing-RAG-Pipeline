@@ -74,7 +74,7 @@ def retrieve_chunks(query: str, k: int = 5) -> list:
 
     try:
         if not isinstance(query, str) or not query.strip():
-            raise ValueError("Query cannot be empty")
+            raise ValueError("Query cannot be empty") #This Execptional handling code try to handle the error if user not provide relevenat pdf.
 
         if not isinstance(k, int) or isinstance(k, bool) or k <= 0:
             raise ValueError("k must be a positive integer")
