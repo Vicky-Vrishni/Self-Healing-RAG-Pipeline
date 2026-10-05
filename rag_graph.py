@@ -35,7 +35,7 @@ ANSWER:"""
 def generate_answer(question: str, context_chunks: list) -> str:
     context_text = "\n\n".join(context_chunks)
     llm = get_llm()
-    chain = ANSWER_PROMPT | llm
+    chain = ANSWER_PROMPT | llm # pipe operator 
     response = chain.invoke({"context": context_text, "question": question})
     return response.content.strip()
 
