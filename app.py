@@ -50,12 +50,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🧠 Self-Healing RAG Assistant")
+st.title("Self-Healing RAG Assistant")
 st.markdown("*Upload a PDF — Ask anything — The system critiques and self-corrects its own answers*")
 st.divider()
 
 with st.sidebar:
-    st.header("📄 Document Upload")
+    st.header(" Document Upload")
     st.markdown("Upload one or more PDF files to build your knowledge base.")
 
     uploaded_files = st.file_uploader(
@@ -85,8 +85,8 @@ with st.sidebar:
     2. ❓ Ask a question
     3. 🔍 System retrieves chunks
     4. 🤖 LLM generates answer
-    5. 🧐 Critic evaluates answer
-    6. 🔄 If hallucinated → retry
+    5. Critic evaluates answer
+    6. If hallucinated → retry
     7. ✅ Final grounded answer
     """)
 
@@ -97,7 +97,7 @@ with st.sidebar:
 
 index_exists = os.path.exists("./faiss_index")
 if not index_exists and not st.session_state.get("docs_indexed"):
-    st.info("👈 Please upload and index a PDF document from the sidebar to get started.")
+    st.info("Please upload and index a PDF document from the sidebar to get started.")
     st.stop()
 
 st.subheader("💬 Ask a Question")
@@ -139,7 +139,7 @@ if question:
                     st.markdown(f'<div class="trace-box">{trace_html}</div>', unsafe_allow_html=True)
 
                 if show_sources and result.get("context"):
-                    with st.expander("📄 Source Chunks Used"):
+                    with st.expander("Source Chunks Used"):
                         for i, chunk in enumerate(result["context"]):
                             st.markdown(f"**Chunk {i+1}:**")
                             st.text(chunk)
@@ -151,5 +151,5 @@ if question:
                 })
 
             except Exception as e:
-                st.error(f"❌ Error: {str(e)}")
+                st.error(f"Error: {str(e)}")
                 st.info("Make sure your PDF is indexed and GROQ_API_KEY is set correctly.")
