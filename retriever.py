@@ -33,7 +33,7 @@ def load_and_index_pdf(pdf_path: str):
 
     loader = PyPDFLoader(pdf_path)
     documents = loader.load()
-
+    # RecursiveCharacterTextSplitter are use to break the pdf into small chunk
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,
         chunk_overlap=100
