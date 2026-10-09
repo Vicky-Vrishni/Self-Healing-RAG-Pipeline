@@ -2,7 +2,7 @@
 
 A Retrieval-Augmented Generation (RAG) system that retrieves relevant information from documents, generates answers using an LLM, and evaluates its own output before returning it to the user. It also includes custom error handling and logging for retrieval failures.
 
-**Live Demo:** [self-healing-rag-pipeline-1.onrender.com](https://self-healing-rag-pipeline-1.onrender.com)
+**Live Demo:** [self-healing-rag-pipeline](https://self-healing-rag-pipeline-1.onrender.com)
 
 ---
 
