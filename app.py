@@ -56,7 +56,7 @@ st.divider()
 
 with st.sidebar:
     st.header(" Document Upload")
-    st.markdown("Upload one or more PDF files to build your knowledge base.")
+    st.markdown("Upload one or more PDF files to build to your knowledge base.")
 
     uploaded_files = st.file_uploader(
         "Choose PDF files",
