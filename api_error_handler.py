@@ -11,7 +11,7 @@ from retrieval_error_handling import (
 
 logger = logging.getLogger(__name__)
 
-
+# Type of Error raised When API doesn't connect.
 class APIError(RAGPipelineError):
     """Base exception for external API failures."""
 
