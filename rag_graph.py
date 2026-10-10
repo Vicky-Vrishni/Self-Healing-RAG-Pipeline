@@ -5,6 +5,39 @@ from critic import critique_answer
 from dotenv import load_dotenv
 import os
 
+
+
+import streamlit as st
+from groq import Groq
+
+from api_error_handler import (
+    call_groq_api,
+    APIError,
+)
+
+client = Groq(
+    api_key=os.environ.get("GROQ_API_KEY")
+)
+
+try:
+    answer = call_groq_api(
+        client,
+        model="llama-3.3-70b-versatile",
+        messages=[
+            {
+                "role": "user",
+                "content": "Your prompt goes here"
+            }
+        ],
+        temperature=0.2,
+    )
+
+except APIError as error:
+    st.error(str(error))
+
+
+
+
 load_dotenv()
 
 MAX_RETRIES = 3
