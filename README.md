@@ -128,6 +128,14 @@ This approach separates internal debugging information from user-facing errors a
 * Monitor retry attempts through the retry counter.
 * Access the deployed application through a public demo link.
 
+
+
+- **API Error Handling:** Handles Groq API authentication failures, rate limits, request timeouts, connection errors, and other API exceptions.
+- **Custom API Exceptions:** Uses application-specific exceptions to make API failures easier to identify and handle.
+- **Centralized Error Logging:** Records internal API and retrieval failures to support debugging.
+- **Safe Error Messages:** Returns controlled error messages instead of exposing internal tracebacks to users.
+- **Failure Recovery:** Supports integration with the existing RAG workflow to handle API failures without unnecessarily crashing the application.
+
 ---
 
 ## Running Locally
