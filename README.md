@@ -201,17 +201,20 @@ http://localhost:8501
 ## Project Structure
 
 ```text
+
 Self-Healing-RAG-Pipeline/
 │
 ├── app.py                       # Streamlit user interface
-├── retriever.py                 # PDF loading, chunking, embeddings and retrieval
-├── retrieval_error_handling.py  # Custom exceptions and error logging
+├── retriever.py                 # PDF processing and FAISS retrieval
+├── retrieval_error_handling.py  # Retrieval exceptions and logging
+├── api_error_handler.py         # Groq API error handling
 ├── critic.py                    # LLM-based answer evaluation
 ├── rag_graph.py                 # Self-healing RAG workflow
 ├── requirements.txt             # Project dependencies
-├── .env                         # API key configuration (not committed)
-├── .gitignore                   # Files excluded from Git
+├── .env                         # API credentials (not committed)
+├── .gitignore                   # Excluded files and secrets
 └── README.md                    # Project documentation
+
 ```
 
 ---
