@@ -110,8 +110,8 @@ This approach separates internal debugging information from user-facing errors a
 | Error Handling | Python custom exceptions          |
 | Logging        | Python `logging` module           |
 | Deployment     | Render                            |
-| Logging        | Python logging module             |
-| API Error      | Python logging module             |
+| API Error      | Groq SDK exceptions and custom    |
+                  Python exceptions         
  
 ---
 
