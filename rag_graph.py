@@ -31,7 +31,7 @@ def get_llm():
 
     if not api_key:
         raise ValueError(
-            "GROQ_API_KEY is missing. Please configure it in your .env file."
+            "GROQ_API_KEY is missing. Please configure it."
         )
 
     return ChatGroq(
