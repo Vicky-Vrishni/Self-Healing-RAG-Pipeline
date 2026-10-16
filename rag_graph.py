@@ -16,7 +16,7 @@ load_dotenv()
 MAX_RETRIES = 3
 
 FALLBACK_ANSWER = (
-    "I don't have enough information in the provided documents "
+    "I don't have enough information about provided documents "
     "to answer this question accurately."
 )
 
