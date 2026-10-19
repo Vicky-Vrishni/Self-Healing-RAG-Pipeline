@@ -12,7 +12,7 @@ load_dotenv()
 st.set_page_config(
     page_title="Self-Healing RAG Assistant",
     page_icon="🧠",
-    layout="wide"
+    layout="wide" 
 )
 
 st.markdown("""
