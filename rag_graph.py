@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.exceptions import OutputParserException
-from groq import APIConnectionError, APITimeoutError, RateLimitError, APIStatusError
+from groq import APIConnectionError, APITimeoutError, RateLimitError, APIStatusError 
 
 from retriever import retrieve_chunks
 from critic import critique_answer
