@@ -11,7 +11,7 @@ from retrieval_error_handling import (
     log_pipeline_error
 )
 
-FAISS_INDEX_DIR = "./faiss_index"
+FAISS_INDEX_DIR = "./faiss_index" 
 _embeddings = None
 
 
