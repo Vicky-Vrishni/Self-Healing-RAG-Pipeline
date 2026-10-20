@@ -96,6 +96,4 @@ def retrieve_chunks(query: str, k: int = 5) -> list:
 
         raise RetrievalError(
             "Document retrieval failed"
-        ) from error
-
-
+        ) from error 
