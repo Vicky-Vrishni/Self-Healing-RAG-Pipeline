@@ -244,6 +244,7 @@ This project explores an agentic, stateful RAG workflow that combines retrieval,
 * Add monitoring and structured logging for pipeline failures.
 * Improve evaluation using a representative set of questions and source documents.
 * Try to improve API errors.
+* Add Component level eval
 
 ---
 
