@@ -64,7 +64,7 @@ ANSWER:"""
 
 
 def generate_answer(question: str, context_chunks: list) -> str:
-    """Generate an answer using retrieved context."""
+    """Generate an answer using retrieved context.""" #Doc String
     context_text = "\n\n".join(context_chunks)
 
     llm = get_llm()
