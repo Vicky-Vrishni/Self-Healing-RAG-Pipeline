@@ -48,7 +48,7 @@ def get_llm():
 # ==========================================================
 
 ANSWER_PROMPT = ChatPromptTemplate.from_template(
-    """You are a helpful assistant. Answer the question using ONLY
+    """You are a helpful AI assistant. Answer the question using ONLY
 the provided context.
 
 If the context does not contain enough information, say exactly:
