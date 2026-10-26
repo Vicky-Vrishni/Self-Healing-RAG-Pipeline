@@ -67,6 +67,8 @@ def load_existing_index():
         allow_dangerous_deserialization=True
     )
 
+# Here I will use retriever evaluation pipline
+
 # Retriever error handling 
 def retrieve_chunks(query: str, k: int = 5) -> list:
     """Return the top-k most relevant chunk texts."""
