@@ -13,7 +13,7 @@ def get_llm():
         api_key=os.getenv("GROQ_API_KEY"),
     )
 
-# CRITIC AGENT Evaluator or Generator Evaluator
+#Generation Evaluation  
 CRITIC_PROMPT = ChatPromptTemplate.from_template(
     """You are a strict answer quality evaluator.
 
