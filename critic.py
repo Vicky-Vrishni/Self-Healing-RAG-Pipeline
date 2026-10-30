@@ -32,7 +32,6 @@ REASON: one sentence explaining why
 REFORMULATED_QUERY: if FAIL, write a better search query. If PASS, write NONE"""
 )
 
-
 def critique_answer(question: str, answer: str, context_chunks: list) -> dict:
     context_text = "\n\n".join(context_chunks)
 
