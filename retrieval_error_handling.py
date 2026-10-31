@@ -1,8 +1,6 @@
 import logging 
 
 logger = logging.getLogger(__name__)
-
-
 class RAGPipelineError(Exception):
     """Base exception for controlled RAG pipeline errors."""
 
