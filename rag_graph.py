@@ -10,7 +10,7 @@ from groq import APIConnectionError, APITimeoutError, RateLimitError, APIStatusE
 from retriever import retrieve_chunks
 from critic import critique_answer
 
-load_dotenv()
+load_dotenv() 
 
 MAX_RETRIES = 3 
 
