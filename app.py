@@ -1,5 +1,3 @@
-# Frontend of the RAG pipe line
-
 import streamlit as st
 import os
 import tempfile 
