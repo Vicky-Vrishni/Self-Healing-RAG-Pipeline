@@ -1,8 +1,5 @@
-# This is API Handler 
 import logging
- 
 import groq
- 
 from groq import Groq
 
 from retrieval_error_handling import (
