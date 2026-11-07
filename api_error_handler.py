@@ -13,7 +13,6 @@ logger = logging.getLogger(__name__)
 class APIError(RAGPipelineError):
     """Base exception for external API failures."""
 
-
 class APIAuthenticationError(APIError):
     """Raised when API authentication fails."""
 
