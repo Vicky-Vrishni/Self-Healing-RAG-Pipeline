@@ -3,7 +3,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
 import os
  
-load_dotenv()
+load_dotenv() 
  
 def get_llm():
     return ChatGroq(
