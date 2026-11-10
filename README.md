@@ -4,7 +4,7 @@ A Retrieval-Augmented Generation (RAG) system that retrieves relevant informatio
 
 **Live Demo:** [self-healing-rag-pipeline](https://self-healing-rag-pipeline-1.onrender.com).
 
----
+--- 
 
 ## The Problem
 
