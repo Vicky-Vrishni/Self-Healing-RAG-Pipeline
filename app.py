@@ -6,7 +6,7 @@ from retriever import load_and_index_pdf
 from rag_graph import run_self_healing_rag
 
 load_dotenv()
-
+ 
 st.set_page_config(
     page_title="Self-Healing RAG Assistant",
     page_icon="🧠",
