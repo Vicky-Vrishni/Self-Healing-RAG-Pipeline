@@ -19,9 +19,8 @@ FALLBACK_ANSWER = (
 )
 
 
-# ==========================================================
+
 # LLM Configuration
-# ==========================================================
 
 def get_llm():
     """Create the Groq-hosted LLM instance."""
