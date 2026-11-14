@@ -9,7 +9,7 @@ A Retrieval-Augmented Generation (RAG) system that retrieves relevant informatio
 ## The Problem
 
 Most basic RAG systems follow a linear workflow:
-
+ 
 **Retrieve → Generate → Return**
 
 Without a verification step, these systems may return hallucinated answers or responses that are not sufficiently grounded in the source documents. They can also fail unexpectedly when document retrieval or vector search encounters an error.
