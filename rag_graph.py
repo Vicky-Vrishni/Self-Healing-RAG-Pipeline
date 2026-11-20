@@ -228,7 +228,7 @@ def run_self_healing_rag(question: str) -> dict:
                     "context": context_chunks,
                 }
 
-            # Step 5: Retry if critic rejects the answer
+            # Step 5: Retry if critic rejects the answer 
             if retry_count >= MAX_RETRIES:
                 trace_log.append(
                     "Maximum retries reached. No grounded answer was accepted."
