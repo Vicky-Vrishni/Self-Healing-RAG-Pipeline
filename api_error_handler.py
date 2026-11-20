@@ -1,7 +1,7 @@
 import logging
 import groq
 from groq import Groq
-
+ 
 from retrieval_error_handling import (
     RAGPipelineError,
     log_pipeline_error,
