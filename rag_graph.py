@@ -11,7 +11,7 @@ from critic import critique_answer
 
 load_dotenv() 
 
-MAX_RETRIES = 5
+MAX_RETRIES = 4
 
 FALLBACK_ANSWER = (
     "I don't have enough information about provided documents "
