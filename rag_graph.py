@@ -40,9 +40,7 @@ def get_llm():
     )
 
 
-# ==========================================================
 # Answer Generation
-# ==========================================================
 
 ANSWER_PROMPT = ChatPromptTemplate.from_template(
     """You are a helpful AI assistant. Answer the question using ONLY
