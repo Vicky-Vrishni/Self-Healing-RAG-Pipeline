@@ -12,7 +12,7 @@ st.set_page_config(
     page_icon="🧠",
     layout="wide" 
 )
-
+ 
 st.markdown("""
     <style>
     .main { background-color: #0f0f0f; }
